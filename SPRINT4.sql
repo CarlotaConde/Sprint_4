@@ -95,3 +95,22 @@ CREATE TABLE IF NOT EXISTS users_ca (
 -- comprovació:
 SELECT *
 FROM users_ca;
+
+-- taula 'users_uk'
+CREATE TABLE IF NOT EXISTS users_uk (
+        id INT PRIMARY KEY,
+        name VARCHAR(20),
+        surname VARCHAR(20),
+        phone VARCHAR(15),
+        email VARCHAR(100),
+        birth_date VARCHAR(15),
+        country VARCHAR(100),
+        city VARCHAR(100),
+        postal_code VARCHAR(10),
+        address VARCHAR(200)
+    );
+    
+-- importar taula
+-- comprovació:
+SELECT *
+FROM users_uk;
