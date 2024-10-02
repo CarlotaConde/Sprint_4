@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS credit_cards (
     track2 VARCHAR(200),
     expiring_date VARCHAR(10)
 );
+
 -- importar taula
 -- comprovació:
 SELECT *
@@ -44,36 +45,53 @@ FROM credit_cards;
 
 -- taula products:
 CREATE TABLE IF NOT EXISTS products (
-	id INT PRIMARY KEY,
+    id INT PRIMARY KEY,
     product_name VARCHAR(50),
     price VARCHAR(10),
     colour VARCHAR(7),
     weight VARCHAR(4),
-    cvv VARCHAR(3),
     warehouse_id VARCHAR(10)
 );
 
-
+-- importar taula
+-- comprovació:
 SELECT *
 FROM products;
 
-    -- Creamos la tabla transaction
-    CREATE TABLE IF NOT EXISTS transactions (
+-- Taula transactions:
+CREATE TABLE IF NOT EXISTS transactions (
         id VARCHAR(255) PRIMARY KEY,
-        card_id VARCHAR(15) 
-        -- REFERENCES credit_card(id),
-        business_id VARCHAR(20), 
+        card_id VARCHAR(10),
+        business_id VARCHAR(10), 
         timestamp TIMESTAMP,
         amount DECIMAL(10, 2),
-		declined BOOLEAN,
+	declined BOOLEAN,
         products_ids VARCHAR(20),
-        user_id INT 
-        -- REFERENCES user(id),
+        user_id INT,
         lat FLOAT,
-        longitude FLOAT,
-        FOREIGN KEY (company_id) REFERENCES company(id) 
+        longitude FLOAT
     );
     
-
+-- importar taula
+-- comprovació:
 SELECT *
 FROM transactions;
+
+-- taula 'users_ca'
+CREATE TABLE IF NOT EXISTS users_ca (
+        id INT PRIMARY KEY,
+        name VARCHAR(20),
+        surname VARCHAR(20),
+        phone VARCHAR(15),
+        email VARCHAR(100),
+        birth_date VARCHAR(15),
+        country VARCHAR(100),
+        city VARCHAR(100),
+        postal_code VARCHAR(10),
+        address VARCHAR(200)
+    );
+    
+-- importar taula
+-- comprovació:
+SELECT *
+FROM users_ca;
