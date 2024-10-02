@@ -6,13 +6,13 @@
 -- EXERCICI 1:
 -- Realitza una subconsulta que mostri tots els usuaris amb més de 30 transaccions utilitzant almenys 2 taules.
 
--- Primer de tot he de crear les taules:
+-- Primer de tot he de crear la base de dades:
 
--- taula companies:
 CREATE DATABASE IF NOT EXISTS bd;
 USE bd;
 
-    CREATE TABLE IF NOT EXISTS companies (
+-- taula companies:
+CREATE TABLE IF NOT EXISTS companies (
         id VARCHAR(15) PRIMARY KEY,
         company_name VARCHAR(255),
         phone VARCHAR(15),
@@ -27,7 +27,7 @@ FROM companies;
 
 -- taula credit_cards:
 CREATE TABLE IF NOT EXISTS credit_cards (
-	id varchar(20) PRIMARY KEY,
+    id varchar(20) PRIMARY KEY,
     user_id VARCHAR(5),
     iban VARCHAR(50),
     pan VARCHAR(25),
