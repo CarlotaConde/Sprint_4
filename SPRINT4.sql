@@ -3,9 +3,6 @@
 -- NIVELL 1
 -- Descàrrega els arxius CSV, estudia'ls i dissenya una base de dades amb un esquema d'estrella que contingui, almenys 4 taules de les quals puguis realitzar les següents consultes:
 
--- EXERCICI 1:
--- Realitza una subconsulta que mostri tots els usuaris amb més de 30 transaccions utilitzant almenys 2 taules.
-
 -- Primer de tot he de crear la base de dades:
 
 CREATE DATABASE IF NOT EXISTS bd;
@@ -125,3 +122,7 @@ ADD INDEX idx_user_id (user_id ASC);
 
 ALTER TABLE transactions
 ADD FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+-- EXERCICI 1:
+-- Realitza una subconsulta que mostri tots els usuaris amb més de 30 transaccions utilitzant almenys 2 taules.
