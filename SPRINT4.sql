@@ -27,7 +27,7 @@ FROM companies;
 
 -- taula credit_cards:
 CREATE TABLE IF NOT EXISTS credit_cards (
-    id varchar(20) PRIMARY KEY,
+    id VARCHAR(20) PRIMARY KEY,
     user_id VARCHAR(5),
     iban VARCHAR(50),
     pan VARCHAR(25),
@@ -45,7 +45,7 @@ FROM credit_cards;
 
 -- taula products:
 CREATE TABLE IF NOT EXISTS products (
-    id INT PRIMARY KEY,
+    id VARCHAR(10) PRIMARY KEY,
     product_name VARCHAR(50),
     price VARCHAR(10),
     colour VARCHAR(7),
@@ -91,79 +91,37 @@ CREATE TABLE IF NOT EXISTS users (
         address VARCHAR(200)
     );
     
--- importar taula
+-- importar taules (3 arxius: users_ca, users_uk i users_usa)
 -- comprovació:
 SELECT *
 FROM users;
 
+-- creem INDEXS i FK:
 
+-- COMPANIES:
+ALTER TABLE transactions
+ADD INDEX idx_business_id (business_id ASC);
 
+ALTER TABLE transactions
+ADD FOREIGN KEY (business_id) REFERENCES companies(id);
 
+-- CREDIT_CARDS:
+ALTER TABLE transactions
+ADD INDEX idx_card_id (card_id ASC);
 
+ALTER TABLE transactions
+ADD FOREIGN KEY (card_id) REFERENCES credit_cards(id);
 
+-- PRODUCTS:
+ALTER TABLE transactions
+ADD INDEX idx_products_ids (products_ids ASC);
 
+ALTER TABLE transactions
+ADD FOREIGN KEY (products_ids) REFERENCES products(id);
 
+-- USERS:
+ALTER TABLE transactions
+ADD INDEX idx_user_id (user_id ASC);
 
-
-
-
-
-
-
-
--- taula 'users_ca'
-CREATE TABLE IF NOT EXISTS users_ca (
-        id INT PRIMARY KEY,
-        name VARCHAR(20),
-        surname VARCHAR(20),
-        phone VARCHAR(15),
-        email VARCHAR(100),
-        birth_date VARCHAR(15),
-        country VARCHAR(100),
-        city VARCHAR(100),
-        postal_code VARCHAR(10),
-        address VARCHAR(200)
-    );
-    
--- importar taula
--- comprovació:
-SELECT *
-FROM users_ca;
-
--- taula 'users_uk'
-CREATE TABLE IF NOT EXISTS users_uk (
-        id INT PRIMARY KEY,
-        name VARCHAR(20),
-        surname VARCHAR(20),
-        phone VARCHAR(15),
-        email VARCHAR(100),
-        birth_date VARCHAR(15),
-        country VARCHAR(100),
-        city VARCHAR(100),
-        postal_code VARCHAR(10),
-        address VARCHAR(200)
-    );
-    
--- importar taula
--- comprovació:
-SELECT *
-FROM users_uk;
-
--- taula 'users_usa'
-CREATE TABLE IF NOT EXISTS users_usa (
-        id INT PRIMARY KEY,
-        name VARCHAR(20),
-        surname VARCHAR(20),
-        phone VARCHAR(15),
-        email VARCHAR(100),
-        birth_date VARCHAR(15),
-        country VARCHAR(100),
-        city VARCHAR(100),
-        postal_code VARCHAR(10),
-        address VARCHAR(200)
-    );
-    
--- importar taula
--- comprovació:
-SELECT *
-FROM users_usa;
+ALTER TABLE transactions
+ADD FOREIGN KEY (user_id) REFERENCES users(id);
