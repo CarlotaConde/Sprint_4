@@ -98,28 +98,24 @@ FROM users;
 -- COMPANIES:
 ALTER TABLE transactions
 ADD INDEX idx_business_id (business_id ASC);
-
 ALTER TABLE transactions
 ADD FOREIGN KEY (business_id) REFERENCES companies(id);
 
 -- CREDIT_CARDS:
 ALTER TABLE transactions
 ADD INDEX idx_card_id (card_id ASC);
-
 ALTER TABLE transactions
 ADD FOREIGN KEY (card_id) REFERENCES credit_cards(id);
 
 -- PRODUCTS:
 ALTER TABLE transactions
 ADD INDEX idx_products_ids (products_ids ASC);
-
 ALTER TABLE transactions
 ADD FOREIGN KEY (products_ids) REFERENCES products(id);
 
 -- USERS:
 ALTER TABLE transactions
 ADD INDEX idx_user_id (user_id ASC);
-
 ALTER TABLE transactions
 ADD FOREIGN KEY (user_id) REFERENCES users(id);
 
