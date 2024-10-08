@@ -223,3 +223,33 @@ FROM transactions
 WHERE transactions.business_id IN (SELECT companies.id
 				   FROM companies
                                    WHERE company_name = 'Donec Ltd');
+
+-- NIVELL 2
+-- Crea una nova taula que reflecteixi l'estat de les targetes de crèdit basat en si les últimes tres transaccions van ser declinades i genera la següent consulta:
+
+
+-- EXERCICI 1
+-- Quantes targetes estan actives?
+
+
+
+
+
+
+-- NIVELL 3
+-- Crea una taula amb la qual puguem unir les dades del nou arxiu products.csv amb la base de dades creada, tenint en compte que des de transaction tens product_ids. Genera la següent consulta:
+
+-- taula creada al principi
+
+-- EXERCICI 1
+-- Necessitem conèixer el nombre de vegades que s'ha venut cada producte.
+
+SELECT 
+  products.product_name AS 'Nom del producte',
+  COUNT(transactions.id) AS 'Quantitat de vegades'
+FROM transactions
+JOIN products
+ON transactions.products_ids = products.id
+WHERE transactions.declined = 0
+GROUP BY products.product_name
+ORDER BY COUNT(transactions.id) DESC;
