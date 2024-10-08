@@ -215,3 +215,11 @@ ON transactions.business_id = companies.id
 WHERE companies.company_name = 'Donec Ltd'
 GROUP BY credit_cards.iban, companies.company_name, companies.country
 ORDER BY  ROUND(AVG(transactions.amount),2) DESC;
+
+-- amb subquery:
+SELECT 
+  ROUND(AVG(amount),2) AS 'Mitja (€)'
+FROM transactions
+WHERE transactions.business_id IN (SELECT companies.id
+				   FROM companies
+                                   WHERE company_name = 'Donec Ltd');
