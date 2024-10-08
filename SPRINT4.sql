@@ -110,8 +110,13 @@ ADD FOREIGN KEY (card_id) REFERENCES credit_cards(id);
 -- PRODUCTS:
 ALTER TABLE transactions
 ADD INDEX idx_products_ids (products_ids ASC);
+-- dona error al establir la relació, ho soluciono fent:
+SET FOREIGN_KEY_CHECKS=0;
+-- estableixo la relació:
 ALTER TABLE transactions
 ADD FOREIGN KEY (products_ids) REFERENCES products(id);
+-- ho tornem a actvar
+SET FOREIGN_KEY_CHECKS=1;
 
 -- USERS:
 ALTER TABLE transactions
