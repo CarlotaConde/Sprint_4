@@ -42,7 +42,7 @@ FROM credit_cards;
 
 -- taula products:
 CREATE TABLE IF NOT EXISTS products (
-    id VARCHAR(10) PRIMARY KEY,
+    id VARCHAR(20) PRIMARY KEY,
     product_name VARCHAR(50),
     price VARCHAR(10),
     colour VARCHAR(7),
@@ -122,3 +122,41 @@ ADD FOREIGN KEY (user_id) REFERENCES users(id);
 
 -- EXERCICI 1:
 -- Realitza una subconsulta que mostri tots els usuaris amb més de 30 transaccions utilitzant almenys 2 taules.
+-- amb JOIN (totes les transaccions, denegades o no):
+SELECT  
+  COUNT(transactions.id) AS 'Total de transaccions', 
+  SUM(transactions.amount) AS 'Quantitat total (€)',
+  user_id AS "ID de l'usuari", 
+  users.name AS 'Nom', 
+  users.surname AS 'Cognom', 
+  users.country AS 'Pais', 
+  users.city AS 'Ciutat', 
+  users.postal_code AS 'Codi postal',
+  users.phone AS 'Telèfon'
+FROM transactions
+JOIN users
+ON transactions.user_id = users.id
+GROUP BY 
+  user_id, users.name, users.surname, users.country, users.city, users.postal_code, users.phone
+HAVING COUNT(transactions.id) >30
+ORDER BY COUNT(transactions.id) DESC;
+
+-- amb JOIN (solament les no denegades)
+SELECT  
+  COUNT(transactions.id) AS 'Total de transaccions', 
+  SUM(transactions.amount) AS 'Quantitat total (€)',
+  user_id AS "ID de l'usuari", 
+  users.name AS 'Nom', 
+  users.surname AS 'Cognom', 
+  users.country AS 'Pais', 
+  users.city AS 'Ciutat', 
+  users.postal_code AS 'Codi postal',
+  users.phone AS 'Telèfon'
+FROM transactions
+JOIN users
+ON transactions.user_id = users.id
+WHERE transactions.declined = 0
+GROUP BY 
+  user_id, users.name, users.surname, users.country, users.city, users.postal_code, users.phone
+HAVING COUNT(transactions.id) >30
+ORDER BY COUNT(transactions.id) DESC;
