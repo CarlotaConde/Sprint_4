@@ -198,4 +198,21 @@ WHERE users.id IN (SELECT user_id
 		   GROUP BY user_id
 		   HAVING COUNT(transactions.id) >30);
 
+-- EXERCICI 2:
+-- Mostra la mitjana d'amount per IBAN de les targetes de crèdit a la companyia Donec Ltd, utilitza almenys 2 taules.
+
+-- amb JOIN:
+SELECT 
+  AVG(transactions.amount) AS 'Mitja (€)', 
+  credit_cards.iban AS 'IBAN', 
+  companies.company_name AS 'Nom de la companyia', 
+  companies.country AS 'Pais'
+FROM transactions
+JOIN credit_cards
+ON transactions.card_id = credit_cards.id
+JOIN companies
+ON transactions.business_id = companies.id
+WHERE companies.company_name = 'Donec Ltd'
+GROUP BY credit_cards.iban, companies.company_name, companies.country
+ORDER BY AVG(transactions.amount) DESC;
 
