@@ -127,6 +127,7 @@ ADD FOREIGN KEY (user_id) REFERENCES users(id);
 
 -- EXERCICI 1:
 -- Realitza una subconsulta que mostri tots els usuaris amb més de 30 transaccions utilitzant almenys 2 taules.
+
 -- amb JOIN (totes les transaccions, denegades o no):
 SELECT  
   COUNT(transactions.id) AS 'Total de transaccions', 
@@ -165,3 +166,36 @@ GROUP BY
   user_id, users.name, users.surname, users.country, users.city, users.postal_code, users.phone
 HAVING COUNT(transactions.id) >30
 ORDER BY COUNT(transactions.id) DESC;
+
+-- amb subquery (totes les transaccions, denegades o no):
+SELECT  
+  id AS 'ID',
+  name AS 'Nom', 
+  surname AS 'Cognom', 
+  country AS 'Pais', 
+  city AS 'Ciutat', 
+  postal_code AS 'Codi postal',
+  phone AS 'Telèfon'
+FROM users
+WHERE users.id IN (SELECT user_id
+		   FROM transactions
+		   GROUP BY user_id
+		   HAVING COUNT(transactions.id) >30);
+                    
+-- amb subquery (solament les no denegades):
+SELECT  
+  id AS 'ID',
+  name AS 'Nom', 
+  surname AS 'Cognom', 
+  country AS 'Pais', 
+  city AS 'Ciutat', 
+  postal_code AS 'Codi postal',
+  phone AS 'Telèfon'
+FROM users
+WHERE users.id IN (SELECT user_id
+		   FROM transactions
+		   WHERE declined = 0
+		   GROUP BY user_id
+		   HAVING COUNT(transactions.id) >30);
+
+
