@@ -203,7 +203,7 @@ WHERE users.id IN (SELECT user_id
 
 -- amb JOIN:
 SELECT 
-  AVG(transactions.amount) AS 'Mitja (€)', 
+  ROUND(AVG(transactions.amount),2) AS 'Mitja (€)', 
   credit_cards.iban AS 'IBAN', 
   companies.company_name AS 'Nom de la companyia', 
   companies.country AS 'Pais'
@@ -214,5 +214,4 @@ JOIN companies
 ON transactions.business_id = companies.id
 WHERE companies.company_name = 'Donec Ltd'
 GROUP BY credit_cards.iban, companies.company_name, companies.country
-ORDER BY AVG(transactions.amount) DESC;
-
+ORDER BY  ROUND(AVG(transactions.amount),2) DESC;
