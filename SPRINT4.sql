@@ -232,7 +232,17 @@ WHERE transactions.business_id IN (SELECT companies.id
 -- Quantes targetes estan actives?
 
 
-
+CREATE TABLE card_status AS
+SELECT 
+    c.card_id,
+    c.card_number,
+    CASE 
+        WHEN COUNT(t.transaction_id) >= 3 AND SUM(CASE WHEN t.status = 'declined' THEN 1 ELSE 0 END) = 3 THEN 'blocked'
+        ELSE 'active'
+    END AS card_status
+FROM credit_cards c
+JOIN transactions t ON c.card_id = t.card_id
+GROUP BY c.card_id, c.card_number;
 
 
 
