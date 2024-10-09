@@ -253,13 +253,14 @@ GROUP BY c.card_id, c.card_number;
 
 -- EXERCICI 1
 -- Necessitem conèixer el nombre de vegades que s'ha venut cada producte.
-
 SELECT 
+  COUNT(transactions.id) AS 'Quantitat de vegades venut',
   products.product_name AS 'Nom del producte',
-  COUNT(transactions.id) AS 'Quantitat de vegades'
+  products.id AS 'ID del producte',
+  products.price AS 'Preu per unitat'
 FROM transactions
 JOIN products
 ON transactions.products_ids = products.id
 WHERE transactions.declined = 0
-GROUP BY products.product_name
+GROUP BY products.id, products.product_name, products.price
 ORDER BY COUNT(transactions.id) DESC;
