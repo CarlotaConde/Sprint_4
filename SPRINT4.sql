@@ -254,7 +254,8 @@ ADD FOREIGN KEY (id) REFERENCES credit_cards(id);
 -- EXERCICI 1
 -- Quantes targetes estan actives?
 
-SELECT COUNT(id) AS 'Targetes actives'
+SELECT 
+  COUNT(id) AS 'Targetes actives'
 FROM card_estat
 WHERE Estat = 'activa';
 
