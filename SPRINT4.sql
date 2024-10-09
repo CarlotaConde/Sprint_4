@@ -246,9 +246,10 @@ SELECT *
 FROM card_estat;
 
 -- crear relació amb la taula 'credit_cards'
-
-
-
+ALTER TABLE credit_cards
+ADD INDEX idx_card_id (id ASC);
+ALTER TABLE card_estat
+ADD FOREIGN KEY (id) REFERENCES credit_cards(id);
 
 -- EXERCICI 1
 -- Quantes targetes estan actives?
