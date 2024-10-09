@@ -8,7 +8,7 @@
 CREATE DATABASE IF NOT EXISTS bd;
 USE bd;
 
--- taula companies:
+-- Taula companies:
 CREATE TABLE IF NOT EXISTS companies (
         id VARCHAR(15) PRIMARY KEY,
         company_name VARCHAR(255),
@@ -17,12 +17,13 @@ CREATE TABLE IF NOT EXISTS companies (
         country VARCHAR(100),
         website VARCHAR(255)
     );
--- importar taula
+
+-- importar taula (arxiu companies)
 -- comprovació:
 SELECT *
 FROM companies;
 
--- taula credit_cards:
+-- Taula credit_cards:
 CREATE TABLE IF NOT EXISTS credit_cards (
     id VARCHAR(20) PRIMARY KEY,
     user_id VARCHAR(5),
@@ -35,12 +36,12 @@ CREATE TABLE IF NOT EXISTS credit_cards (
     expiring_date VARCHAR(10)
 );
 
--- importar taula
+-- importar taula (arxiu credit_cards)
 -- comprovació:
 SELECT *
 FROM credit_cards;
 
--- taula products:
+-- Taula products:
 CREATE TABLE IF NOT EXISTS products (
     id VARCHAR(20) PRIMARY KEY,
     product_name VARCHAR(50),
@@ -50,7 +51,7 @@ CREATE TABLE IF NOT EXISTS products (
     warehouse_id VARCHAR(10)
 );
 
--- importar taula
+-- importar taula (arxiu products)
 -- comprovació:
 SELECT *
 FROM products;
@@ -69,12 +70,12 @@ CREATE TABLE IF NOT EXISTS transactions (
         longitude FLOAT
     );
     
--- importar taula
+-- importar taula (arxiu transactions)
 -- comprovació:
 SELECT *
 FROM transactions;
 
--- tabla users
+-- Taula users
 CREATE TABLE IF NOT EXISTS users (
         id INT PRIMARY KEY,
         name VARCHAR(20),
@@ -115,7 +116,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- estableixo la relació:
 ALTER TABLE transactions
 ADD FOREIGN KEY (products_ids) REFERENCES products(id);
--- ho tornem a actvar
+-- ho tornem a activar
 SET FOREIGN_KEY_CHECKS=1;
 
 -- USERS:
@@ -262,7 +263,7 @@ WHERE Estat = 'activa';
 -- NIVELL 3
 -- Crea una taula amb la qual puguem unir les dades del nou arxiu products.csv amb la base de dades creada, tenint en compte que des de transaction tens product_ids. Genera la següent consulta:
 
--- taula creada al principi
+-- (taula creada al principi de l'exercici)
 
 -- EXERCICI 1
 -- Necessitem conèixer el nombre de vegades que s'ha venut cada producte.
