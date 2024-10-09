@@ -227,22 +227,27 @@ WHERE transactions.business_id IN (SELECT companies.id
 -- NIVELL 2
 -- Crea una nova taula que reflecteixi l'estat de les targetes de crèdit basat en si les últimes tres transaccions van ser declinades i genera la següent consulta:
 
+CREATE TABLE card_estat AS
+SELECT 
+    credit_cards.id,
+    credit_cards.iban,
+     CASE
+        WHEN COUNT(transactions.id) >= 3 THEN 'bloquejada'
+        ELSE 'activa'
+    END AS 'Estat'
+FROM transactions
+JOIN credit_cards
+ON transactions.card_id =  credit_cards.id
+GROUP BY credit_cards.id, credit_cards.iban;
 
 -- EXERCICI 1
 -- Quantes targetes estan actives?
 
 
-CREATE TABLE card_status AS
-SELECT 
-    c.card_id,
-    c.card_number,
-    CASE 
-        WHEN COUNT(t.transaction_id) >= 3 AND SUM(CASE WHEN t.status = 'declined' THEN 1 ELSE 0 END) = 3 THEN 'blocked'
-        ELSE 'active'
-    END AS card_status
-FROM credit_cards c
-JOIN transactions t ON c.card_id = t.card_id
-GROUP BY c.card_id, c.card_number;
+
+
+
+
 
 
 
