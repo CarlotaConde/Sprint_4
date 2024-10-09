@@ -241,6 +241,15 @@ ON transactions.card_id = credit_cards.id
 GROUP BY credit_cards.id, credit_cards.iban
 ORDER BY Estat;
 
+-- comprovar
+SELECT *
+FROM card_estat;
+
+-- crear relació amb la taula 'credit_cards'
+
+
+
+
 -- EXERCICI 1
 -- Quantes targetes estan actives?
 
