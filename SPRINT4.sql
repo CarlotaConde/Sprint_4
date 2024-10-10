@@ -239,8 +239,7 @@ SELECT
 FROM transactions
 JOIN credit_cards
 ON transactions.card_id = credit_cards.id
-GROUP BY credit_cards.id, credit_cards.iban
-ORDER BY Estat;
+GROUP BY credit_cards.id, credit_cards.iban;
 
 -- comprovar
 SELECT *
