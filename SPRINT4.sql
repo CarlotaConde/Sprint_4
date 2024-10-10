@@ -168,6 +168,38 @@ ADD FOREIGN KEY (user_id) REFERENCES users(id);
 -- EXERCICI 1:
 -- Realitza una subconsulta que mostri tots els usuaris amb més de 30 transaccions utilitzant almenys 2 taules.
 
+-- amb subquery (totes les transaccions, denegades o no):
+SELECT  
+  id AS 'ID',
+  name AS 'Nom', 
+  surname AS 'Cognom', 
+  country AS 'Pais', 
+  city AS 'Ciutat', 
+  postal_code AS 'Codi postal',
+  phone AS 'Telèfon'
+FROM users
+WHERE users.id IN (SELECT user_id
+		   FROM transactions
+		   GROUP BY user_id
+		   HAVING COUNT(transactions.id) >30);
+                    
+-- amb subquery (solament les no denegades):
+SELECT  
+  id AS 'ID',
+  name AS 'Nom', 
+  surname AS 'Cognom', 
+  country AS 'Pais', 
+  city AS 'Ciutat', 
+  postal_code AS 'Codi postal',
+  phone AS 'Telèfon'
+FROM users
+WHERE users.id IN (SELECT user_id
+		   FROM transactions
+		   WHERE declined = 0
+		   GROUP BY user_id
+		   HAVING COUNT(transactions.id) >30);
+
+
 -- amb JOIN (totes les transaccions, denegades o no):
 SELECT  
   COUNT(transactions.id) AS 'Total de transaccions', 
@@ -207,39 +239,16 @@ GROUP BY
 HAVING COUNT(transactions.id) >30
 ORDER BY COUNT(transactions.id) DESC;
 
--- amb subquery (totes les transaccions, denegades o no):
-SELECT  
-  id AS 'ID',
-  name AS 'Nom', 
-  surname AS 'Cognom', 
-  country AS 'Pais', 
-  city AS 'Ciutat', 
-  postal_code AS 'Codi postal',
-  phone AS 'Telèfon'
-FROM users
-WHERE users.id IN (SELECT user_id
-		   FROM transactions
-		   GROUP BY user_id
-		   HAVING COUNT(transactions.id) >30);
-                    
--- amb subquery (solament les no denegades):
-SELECT  
-  id AS 'ID',
-  name AS 'Nom', 
-  surname AS 'Cognom', 
-  country AS 'Pais', 
-  city AS 'Ciutat', 
-  postal_code AS 'Codi postal',
-  phone AS 'Telèfon'
-FROM users
-WHERE users.id IN (SELECT user_id
-		   FROM transactions
-		   WHERE declined = 0
-		   GROUP BY user_id
-		   HAVING COUNT(transactions.id) >30);
-
 -- EXERCICI 2:
 -- Mostra la mitjana d'amount per IBAN de les targetes de crèdit a la companyia Donec Ltd, utilitza almenys 2 taules.
+
+-- amb subquery:
+SELECT 
+  ROUND(AVG(amount),2) AS 'Mitja (€)'
+FROM transactions
+WHERE transactions.business_id IN (SELECT companies.id
+				   FROM companies
+                                   WHERE company_name = 'Donec Ltd');
 
 -- amb JOIN:
 SELECT 
@@ -255,14 +264,6 @@ ON transactions.business_id = companies.id
 WHERE companies.company_name = 'Donec Ltd'
 GROUP BY credit_cards.iban, companies.company_name, companies.country
 ORDER BY  ROUND(AVG(transactions.amount),2) DESC;
-
--- amb subquery:
-SELECT 
-  ROUND(AVG(amount),2) AS 'Mitja (€)'
-FROM transactions
-WHERE transactions.business_id IN (SELECT companies.id
-				   FROM companies
-                                   WHERE company_name = 'Donec Ltd');
 
 -- NIVELL 2
 -- Crea una nova taula que reflecteixi l'estat de les targetes de crèdit basat en si les últimes tres transaccions van ser declinades i genera la següent consulta:
