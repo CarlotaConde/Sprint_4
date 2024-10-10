@@ -42,6 +42,11 @@ CREATE TABLE IF NOT EXISTS credit_cards (
 );
 
 -- importar taula (arxiu credit_cards)
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/credit_cards.csv" 
+INTO TABLE credit_cards
+FIELDS TERMINATED BY ',' 
+IGNORE 1 LINES;
+
 -- comprovació:
 SELECT *
 FROM credit_cards;
