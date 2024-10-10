@@ -95,6 +95,25 @@ CREATE TABLE IF NOT EXISTS users (
     );
     
 -- importar taules (3 arxius: users_ca, users_uk i users_usa)
+-- taula usa
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/users_usa.csv" 
+INTO TABLE users
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 LINES;
+-- taula uk
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/users_uk.csv" 
+INTO TABLE users
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 LINES;
+-- taula ca
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/users_ca.csv" 
+INTO TABLE users
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 LINES;
+
 -- comprovació:
 SELECT *
 FROM users;
