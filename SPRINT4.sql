@@ -230,12 +230,12 @@ WHERE transactions.business_id IN (SELECT companies.id
 
 CREATE TABLE card_estat AS
 SELECT 
-  credit_cards.id,
-  credit_cards.iban,
-    CASE
-      WHEN COUNT(transactions.id) >= 3 THEN 'bloquejada'
-      ELSE 'activa'
-    END AS 'Estat'
+    credit_cards.id,
+    credit_cards.iban,
+     CASE
+        WHEN (COUNT(transactions.declined) = 1) >= 3 THEN 'bloquejada'
+        ELSE 'activa'
+	END AS 'Estat'
 FROM transactions
 JOIN credit_cards
 ON transactions.card_id = credit_cards.id
