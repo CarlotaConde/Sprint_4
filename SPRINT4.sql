@@ -62,6 +62,11 @@ CREATE TABLE IF NOT EXISTS products (
 );
 
 -- importar taula (arxiu products)
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/products.csv" 
+INTO TABLE products
+FIELDS TERMINATED BY ',' 
+IGNORE 1 LINES;
+
 -- comprovació:
 SELECT *
 FROM products;
@@ -81,6 +86,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     );
     
 -- importar taula (arxiu transactions)
+
 -- comprovació:
 SELECT *
 FROM transactions;
