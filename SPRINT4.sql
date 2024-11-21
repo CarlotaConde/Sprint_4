@@ -224,34 +224,55 @@ IGNORE 1 LINES;
 SELECT *
 FROM products;
 
+-- Indicar PK de la taula 'products'
+ALTER TABLE products
+ADD CONSTRAINT id  Primary key(id);
 
--- He intentat crear una taula intermitja de ‘transaction_product’, 
--- per fer l’unió entre ‘products’ i ‘transactions’ per no em sortía com separar els ‘id’, 
--- perque a la taula ‘transactions’ els ‘products_ids’ están separats per comes.
+-- Crear taula intermitja:
+CREATE TABLE transactions_products (
+    id VARCHAR(36),
+    product_id INT);
 
--- Creem l'índex i la 'Foreign Key'(FK) per poder estbalir la relació entre les taules 'products' i 'transactions'
--- Primer creo l'índex a la taula 'transactions', ja que aquesta taula és el punt d'unió de totes (model estrella).
--- Després indico quina es la FK per després indicar-li a quina columna de la taula fa referència.
-ALTER TABLE transactions
-ADD INDEX idx_products_ids (products_ids ASC);
--- Surt un error al establir la relació, ho soluciono fent (sé que no es el més convenient, però es de la única manera que ho he pogut solucionar):
-SET FOREIGN_KEY_CHECKS=0;
--- Estableixo la relació:
-ALTER TABLE transactions
-ADD FOREIGN KEY (products_ids) REFERENCES products(id);
--- Ho tornem a activar:
-SET FOREIGN_KEY_CHECKS=1;
+-- Crear taula amb números:
+CREATE TABLE numeros (
+    n INT);
+
+-- Omplir la taula amb valors
+INSERT INTO numbers (n) VALUES (0), (1), (2), (3), (4), (5), (6), (7), (8), (9);
+
+-- Comprovació:
+SELECT * FROM numbers;
+
+-- Dividir els ID dels productes:
+INSERT INTO transactions_products (id, product_id)
+SELECT 
+    id, 
+    CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(product_ids, ',', numeros.n + 1), ',', -1) AS UNSIGNED)
+FROM 
+    transactions
+JOIN 
+    numeros ON CHAR_LENGTH(product_ids) - CHAR_LENGTH(REPLACE(product_ids, ',', '')) >= numeros.n;
+
+-- Cambiar ID de products a INT:
+ALTER TABLE products 
+CHANGE id id INT;
+
+-- Crear FK a la taula 'transactions_products' i relacionarla amb la taula 'products':
+ALTER TABLE transactions_products
+ADD CONSTRAINT fk2_product_id  FOREIGN KEY (product_id) REFERENCES products(id);
+
+-- Crear FK a la taula 'transactions_products' i relacionarla amb la taula 'transactions':
+ALTER TABLE transaction_products
+ADD CONSTRAINT id  FOREIGN KEY (id) REFERENCES transactions(id);
+
 
 -- EXERCICI 1
 -- Necessitem conèixer el nombre de vegades que s'ha venut cada producte.
 SELECT 
-  COUNT(transactions.id) AS 'Quantitat de vegades venut',
-  products.product_name AS 'Nom del producte',
-  products.id AS 'ID del producte',
-  products.price AS 'Preu per unitat'
-FROM transactions
-JOIN products
-ON transactions.products_ids = products.id
-WHERE transactions.declined = 0
-GROUP BY products.id, products.product_name, products.price
-ORDER BY COUNT(transactions.id) DESC;
+  product_name AS 'Nom del producte', 
+  count(product_id) AS 'Quantitat de vegades venut'
+FROM products
+JOIN transactions_products
+ON products.id = transactions_products.product_id
+GROUP BY product_name
+ORDER BY COUNT(product_id) DESC;
