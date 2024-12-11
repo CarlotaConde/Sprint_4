@@ -224,10 +224,6 @@ IGNORE 1 LINES;
 SELECT *
 FROM products;
 
--- Indicar PK de la taula 'products'
-ALTER TABLE products
-ADD CONSTRAINT id  Primary key(id);
-
 -- Crear taula intermitja:
 CREATE TABLE transactions_products (
     id VARCHAR(36),
@@ -238,20 +234,20 @@ CREATE TABLE numeros (
     n INT);
 
 -- Omplir la taula amb valors
-INSERT INTO numbers (n) VALUES (0), (1), (2), (3), (4), (5), (6), (7), (8), (9);
+INSERT INTO numeros (n) VALUES (0), (1), (2), (3), (4), (5), (6), (7), (8), (9);
 
 -- Comprovació:
-SELECT * FROM numbers;
+SELECT * FROM numeros;
 
 -- Dividir els ID dels productes:
-INSERT INTO transactions_products (id, product_id)
+INSERT INTO transactions_products (id,product_id)
 SELECT 
     id, 
-    CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(product_ids, ',', numeros.n + 1), ',', -1) AS UNSIGNED)
+    CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(products_ids, ',', numeros.n + 1), ',', -1) AS UNSIGNED)
 FROM 
     transactions
 JOIN 
-    numeros ON CHAR_LENGTH(product_ids) - CHAR_LENGTH(REPLACE(product_ids, ',', '')) >= numeros.n;
+    numeros ON CHAR_LENGTH(products_ids) - CHAR_LENGTH(REPLACE(products_ids, ',', '')) >= numeros.n;
 
 -- Cambiar ID de products a INT:
 ALTER TABLE products 
@@ -262,9 +258,8 @@ ALTER TABLE transactions_products
 ADD CONSTRAINT fk2_product_id  FOREIGN KEY (product_id) REFERENCES products(id);
 
 -- Crear FK a la taula 'transactions_products' i relacionarla amb la taula 'transactions':
-ALTER TABLE transaction_products
+ALTER TABLE transactions_products
 ADD CONSTRAINT id  FOREIGN KEY (id) REFERENCES transactions(id);
-
 
 -- EXERCICI 1
 -- Necessitem conèixer el nombre de vegades que s'ha venut cada producte.
